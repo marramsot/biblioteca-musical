@@ -1,0 +1,19 @@
+.songCard{
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #dddd;
+    border-radius: 12px;
+    background-color: #ffffff;
+}
+.songCard h2{
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+.songCard p{
+  margin: 5px 0;
+}
+@media(max-whidth:600px){
+    .songCard{
+        padding: 15px;
+    }
+}

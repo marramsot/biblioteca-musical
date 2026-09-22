@@ -1,0 +1,11 @@
+.library{
+    margin-top: 40px;
+}
+@media (max-width:600px){
+    .library{
+        margin-top: 25px;
+    }
+}
+.library .songCard{
+    background-color: #f3e8ff;
+}

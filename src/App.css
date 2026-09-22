@@ -10,38 +10,11 @@ body{
   padding:30px 20px;
   box-sizing: border-box;
   
-  header{
-    text-align: center;
-    margin-bottom: 30px;
-  }
-  header h1{
-    font-size: 2.2rem;
-    margin:0;
-  }
-}
-.songCard{
-  background-color: #ffffff;
-  padding: 20px;
-  margin-bottom: 20px;
-  border: 1px solid #ddd;
-  border-radius: 12px;
-}
-.songCard h2{
-  margin-top: 0;
-  margin-bottom: 10px;
-}
-.songCard p{
-  margin: 5px 0;
+  
 }
 @media(max-width: 600px){
   .App{
-    width: 95%;
+    width: 100%;
     padding: 20px 10px;
-  }
-  header h1{
-    font-size: 1.7rem;
-  }
-  .songCard{
-    padding: 15px;
-  }
+  } 
 }
