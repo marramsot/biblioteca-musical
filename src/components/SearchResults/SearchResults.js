@@ -1,9 +1,9 @@
-import Song from "./Song";
-import"./SearchResults.css";
+import Song from "../Song/Song";
+import { ResultsContainer, ResultsTitle} from "./SearchResults.styles";
 const SearchResults = (props) => {
     return (
-        <div className="searchResults">
-            <h2>Resultados de búsqueda</h2>
+        <ResultsContainer className="searchResults">
+            <ResultsTitle>Resultados de búsqueda</ResultsTitle>
             {props.songs.map((song) => (
                
                     <Song
@@ -18,6 +18,6 @@ const SearchResults = (props) => {
               
             ))
             }
-        </div>
+        </ResultsContainer>
     );
 };export default SearchResults;

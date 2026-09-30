@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import { SearchForm,SearchInput,SearchButton } from "./SearchBar.styles";
 const SearchBar = ({onSearch}) =>{
     const [searchTeam,setSearchTeam]=useState("");//guarda lo escrito en el buscador
     const handleSubmit =(event) =>{
@@ -6,16 +7,16 @@ const SearchBar = ({onSearch}) =>{
         onSearch(searchTeam);
     };
     return(
-        <form onSubmit={handleSubmit}>
-            <input
+        <SearchForm onSubmit={handleSubmit}>
+            <SearchInput
                 type="text"
                 value={searchTeam}
                 onChange={(event) => setSearchTeam(event.target.value)} /* */ 
             />
-            <button type="submit">
+            <SearchButton type="submit">
                 Buscar
-            </button>
-        </form>
+            </SearchButton>
+        </SearchForm>
     );
 };
 export default SearchBar;

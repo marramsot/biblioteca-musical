@@ -1,12 +1,13 @@
 import React, {useState,useEffect} from "react";
-import "./App.css";
-import SearchResults from "./components/SearchResults";
-import Library from "./components/Library";
-import Header from "./components/Header";
-import SongDetail from "./components/SongDetail";
+
+import SearchResults from "./components/SearchResults/SearchResults";
+import Library from "./components/Library/Library";
+import Header from "./components/Header/Header";
+import SongDetail from "./components/SongDetail/SongDetail";
 import { Routes, Route } from "react-router-dom";//Routes contenedor de rutas, Route- que componente se muestra en cada dirección
-import SearchBar from "./components/SearchBar";
+import SearchBar from "./components/SearchBar/SearchBar";
 import useFetch from "./hooks/useFetch";
+import { AppContainer } from "./App.styles";
 const App= () => {
 const [library,setLibrary]=useState([]);
 const [searchTerm, setSearchTerm]=useState("");
@@ -74,7 +75,7 @@ useEffect(() => {
     setSearchTerm(term);
   }
     return(
-      <div className="App">
+      <AppContainer className="App">
         <Routes>
           <Route //estructura de route
             path="/"
@@ -104,7 +105,7 @@ useEffect(() => {
             />
             <Route path="/song/:1d" element={<SongDetail />} />  
         </Routes>
-      </div>  
+      </AppContainer>  
     );
   };
 export default App;

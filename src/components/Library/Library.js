@@ -1,9 +1,10 @@
 import React from "react";
-import Song from "./Song";
-import "./Library.css";
+import Song from "../Song/Song";
+import { LibraryContainer } from "./Library.styles";
+
 const Library=(props) => {
     return(
-        <div className="library">
+        <LibraryContainer className="library">
             <h2>Mi Biblioteca</h2>
             {props.songs.map((song) =>(
                 <Song
@@ -13,9 +14,10 @@ const Library=(props) => {
                 album={song.album}
                 duration={song.duration}
                 song={song}
+                $inLibrary={true}
                 />
             ))}
-        </div>
+        </LibraryContainer>
     );
 };
 export default Library;

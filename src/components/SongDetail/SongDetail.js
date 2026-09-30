@@ -1,8 +1,8 @@
 
-import { useParams, useLocation, Link } from "react-router-dom";
-import useFetch from "../hooks/useFetch";
+import { useLocation, } from "react-router-dom";
+import useFetch from "../../hooks/useFetch";
+import { DetailContainer, DetailTitle, DetailText, BackLink } from "./SongDetail.styles";
 const SongDetail = () => {
-    const{id}=useParams();
     const location=useLocation();
     const song=location.state?.song;
     const url = `https://www.theaudiodb.com/api/v1/json/123/album.php?m=${song?.albumId}`;
@@ -20,13 +20,13 @@ const SongDetail = () => {
         );
     }
         return(
-        <div>
-            <h2>Detalle de la canción</h2>
-            <p>Título: {song?.title}</p>
-            <p>Artista: {album?.strArtist}</p>
-            <p>Año de lanzamiento: {album?.intYearReleased}</p>
-            <Link to="/">← Volver a buscar</Link>
-        </div>
+        <DetailContainer>
+            <DetailTitle>Detalle de la canción</DetailTitle>
+            <DetailText>Título: {song?.title}</DetailText>
+            <DetailText>Artista: {album?.strArtist}</DetailText>
+            <DetailText>Año de lanzamiento: {album?.intYearReleased}</DetailText>
+            <BackLink to="/">← Volver a buscar</BackLink>
+        </DetailContainer>
     );
 };
 export default SongDetail; //para poder utlizar un elemento de este archivo en otro archivo
