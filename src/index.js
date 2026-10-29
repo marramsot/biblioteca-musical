@@ -7,6 +7,11 @@ import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from "styled-components";
 import GlobalStyle from "./theme/GlobalStyle";
 import theme from "./theme/theme";
+// Importamos Provider para conectar React con Redux.
+import { Provider } from 'react-redux';
+
+// Importamos el store que creamos en la carpeta redux.
+import store from './redux/store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -14,13 +19,14 @@ root.render(
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       <BrowserRouter>
-        <App />
+         {/* Provider permite que App y sus componentes accedan al store. */}
+        <Provider store={store}>
+          <App />
+        </Provider>
       </BrowserRouter>
     </ThemeProvider>   
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+
 reportWebVitals();

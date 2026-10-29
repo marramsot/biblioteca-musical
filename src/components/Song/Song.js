@@ -15,10 +15,17 @@ const Song = (props) =>{
                 <SongText>Álbum:{props.album}</SongText>
                
                 {props.addToLibrary && (
-                <button onClick={() => props.addToLibrary(props.song)}>
+                <button onClick={props.addToLibrary}>
                     Agregar a mi biblioteca
                 </button>)}
+                {/* Mostramos Eliminar únicamente si la canción está en la biblioteca. */}
+                {props.$inLibrary && props.removeFromLibrary && (
+                <button onClick={props.removeFromLibrary}>
+                    Eliminar
+                </button>
+                )}
             </SongCard>
+
         );
     
 };
