@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { SongCard, SongTitle,SongText } from "./Song.styles";
+// Importamos los componentes con estilos.
+import { SongCard, SongTitle, SongText, AddButton, RemoveButton } from "./Song.styles";
 const Song = (props) =>{
    
         return(
@@ -14,15 +15,17 @@ const Song = (props) =>{
                 <SongText>Artista:{props.artist}</SongText>
                 <SongText>Álbum:{props.album}</SongText>
                
+                {/* Botón con estilos para agregar canciones a la biblioteca. */}
                 {props.addToLibrary && (
-                <button onClick={props.addToLibrary}>
+                <AddButton onClick={props.addToLibrary}>
                     Agregar a mi biblioteca
-                </button>)}
+                </AddButton>
+                )}
                 {/* Mostramos Eliminar únicamente si la canción está en la biblioteca. */}
                 {props.$inLibrary && props.removeFromLibrary && (
-                <button onClick={props.removeFromLibrary}>
+                <RemoveButton onClick={props.removeFromLibrary}>
                     Eliminar
-                </button>
+                </RemoveButton>
                 )}
             </SongCard>
 

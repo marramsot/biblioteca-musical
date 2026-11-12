@@ -1,17 +1,19 @@
 import Song from "../Song/Song";
 import { ResultsContainer, ResultsTitle} from "./SearchResults.styles";
-// Importamos useDispatch para enviar acciones a Redux.
-import { useDispatch } from "react-redux";
+// useDispatch envía acciones y useSelector consulta el estado de Redux.
+import { useDispatch, useSelector } from "react-redux";
 
-// Importamos la acción que agrega canciones a la biblioteca.
-import { addSong } from "../../redux/libraryActions";
+// Importamos la acción generada automáticamente por Redux Toolkit.
+import { addSong } from "../../redux/slices/librarySlice";
 const SearchResults = (props) => {
       // Obtenemos la función dispatch de Redux.
     const dispatch = useDispatch();
+    // Obtenemos las canciones encontradas desde searchSlice.
+    const songs = useSelector((state) => state.search.results);
     return (
         <ResultsContainer className="searchResults">
             <ResultsTitle>Resultados de búsqueda</ResultsTitle>
-            {props.songs.map((song) => (
+            {songs.map((song) => (
                
                     <Song
                     key={song.id}

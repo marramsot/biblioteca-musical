@@ -1,19 +1,20 @@
 import React from "react";
 import Song from "../Song/Song";
-import { LibraryContainer } from "./Library.styles";
+// Importamos el contenedor y el título con estilos.
+import { LibraryContainer, LibraryTitle } from "./Library.styles";
 // useDispatch permite enviar acciones para modificar ese estado.
 import { useSelector, useDispatch } from "react-redux";
 
-// Importamos la acción que elimina canciones de la biblioteca.
-import { removeSong } from "../../redux/libraryActions";
+// Importamos la acción generada automáticamente por librarySlice.
+import { removeSong } from "../../redux/slices/librarySlice";
 const Library=(props) => {
-    // Obtenemos las canciones almacenadas en el estado global.
-    const songs = useSelector((state) => state);
+    // Obtenemos las canciones del slice library en el estado global.
+    const songs = useSelector((state) => state.library);
     // Obtenemos dispatch para enviar acciones a Redux.
     const dispatch = useDispatch();
     return(
         <LibraryContainer className="library">
-            <h2>Mi Biblioteca</h2>
+            <LibraryTitle>Mi Biblioteca</LibraryTitle>
             {songs.map((song) => (
             <React.Fragment key={song.id}>
                 <Song

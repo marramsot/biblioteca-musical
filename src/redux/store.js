@@ -1,14 +1,24 @@
-// Importamos createStore desde Redux.
-// Nos permite crear el almacén global de nuestra aplicación.
-import { createStore } from "redux";
 
-// Importamos el reducer 
-// Este decidirá cómo se actualizan las canciones.
-import libraryReducer from "./libraryReducer";
+ // Importamos configureStore desde Redux Toolkit.
+// Nos permite configurar el almacén global de nuestra aplicación.
+import { configureStore } from "@reduxjs/toolkit";
 
-// Creamos el store utilizando nuestro reducer.
-// Aquí se almacenará el estado global de la biblioteca.
-const store = createStore(libraryReducer);
+// Importamos el reducer que administra nuestra biblioteca.
+import libraryReducer from "./slices/librarySlice";
 
-// Exportamos el store para utilizarlo en index.js.
+// Importamos el reducer que administra las búsquedas.
+import searchReducer from "./slices/searchSlice";
+
+// Creamos el store y combinamos nuestros dos reducers.
+const store = configureStore({
+  reducer: {
+    // Almacena las canciones guardadas por el usuario.
+    library: libraryReducer,
+
+    // Almacena los resultados, la carga y los errores de búsqueda.
+    search: searchReducer,
+  },
+});
+
+// Exportamos el store para utilizarlo en nuestra aplicación.
 export default store;

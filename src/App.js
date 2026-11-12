@@ -1,79 +1,28 @@
-import React, {useState,useEffect} from "react";
-
+import React from "react";
+// useSelector consulta el estado y useDispatch envía acciones a Redux.
+import { useSelector, useDispatch } from "react-redux";
 import SearchResults from "./components/SearchResults/SearchResults";
 import Library from "./components/Library/Library";
 import Header from "./components/Header/Header";
 import SongDetail from "./components/SongDetail/SongDetail";
 import { Routes, Route } from "react-router-dom";//Routes contenedor de rutas, Route- que componente se muestra en cada dirección
 import SearchBar from "./components/SearchBar/SearchBar";
-import useFetch from "./hooks/useFetch";
-import { AppContainer } from "./App.styles";
+// Importamos el contenedor y los mensajes con estilos.
+import { AppContainer, EmptyMessage, LoadingMessage, ErrorMessage, RetryButton,} from "./App.styles";
+// Acción asíncrona para buscar canciones.
+import { fetchSongs } from "./redux/slices/searchSlice";
 const App= () => {
-const [library,setLibrary]=useState([]);
-const [searchTerm, setSearchTerm]=useState("");
-//lugar para guardar las canciones de los albumes
-const [apiTracks, setApiTracks] = useState([]);
-const url = searchTerm
-  ? `https://www.theaudiodb.com/api/v1/json/123/searchalbum.php?s=${encodeURIComponent(searchTerm)}`
-  : null;
-const {data, loading, error, refetch}=useFetch(url);
-console.log("datos de la API: ", data);
-console.log("álbumes:",data?.album);
-const apiAlbums = data?.album || [];
+  // Permite enviar acciones a Redux Toolkit.
+const dispatch = useDispatch();
+// Consultamos el estado de la búsqueda en Redux Toolkit.
+const {
+  results: searchResults,
+  loading: searchLoading,
+  error: searchError,
+  hasSearched,
+  lastSearch,
+} = useSelector((state) => state.search);
 
-useEffect(() =>{
-  //recorre cada album que llegó de la api
-  const formattedAlbums =(data?.album || []).map((album) => ({
-    id: album.idAlbum,
-    title:album.strAlbum,
-    artist:album.strArtist,
-    album: album.strAlbum,
-  }));
-  if(formattedAlbums.length ===0){
-    setApiTracks([]);
-    return;
-  }
-  const fetchTracks = async() =>{
-    const request = formattedAlbums.map((album)=>
-    fetch(`https://www.theaudiodb.com/api/v1/json/123/track.php?m=${album.id}`)
-    .then((response) => response.json())
-  );
-  const results = await Promise.all(request);
-  const allTracks=results.flatMap((result) => result.track || []);
-  setApiTracks(allTracks);
-  };
-  fetchTracks();
-}, [data]);
-/*const albumId = formattedAlbums.length > 0 ? formattedAlbums[0].id : null;
-const tracksUrl=albumId
-? `https://www.theaudiodb.com/api/v1/json/123/track.php?m=${albumId}`
-: null;
-const { data: tracksData } = useFetch(tracksUrl);
-const apiTracks = tracksData?.track || [];*/
-const formattedTracks=apiTracks.map((track) => ({
-  id: track.idTrack,
-  albumId:track.idAlbum,
-  title: track.strTrack,
-  artist:track.strArtist,
-  album: track.strAlbum,
-}));
-
-
-console.log("apiAlbums:",apiAlbums);
-console.log(url);
-const addToLibrary=(song) =>{
-  const alreadyExists=library.some((item) => item.id=== song.id);//revisa si hay alguna cación en library cuyo id sea igual al que quiero agregar
-  if(!alreadyExists){
-  setLibrary((prev)=>[...library,song]);
-  }
-};
-useEffect(() => {
-  console.log("La biblioteca ha cambiado:",library);
-},[library]);
-  const handleSearch =(term) => {
-    console.log("Artista buscado: ", term);
-    setSearchTerm(term);
-  }
     return(
       <AppContainer className="App">
         <Routes>
@@ -83,27 +32,37 @@ useEffect(() => {
               <>
             
                 <Header/>
-                <SearchBar  onSearch={handleSearch}/>
-                {loading && searchTerm && <p>Cargando...</p>}
-               {error && (
-                  <div>
+                {/* SearchBar ahora realiza la búsqueda directamente con Redux Toolkit. */}
+                <SearchBar />
+                {/* Mostramos un mensaje con estilos mientras se buscan canciones. */}
+                {searchLoading && (
+                  <LoadingMessage>Cargando canciones...</LoadingMessage>
+                )}
+                {/* Mostramos el error y permitimos repetir la última búsqueda. */}
+                {searchError && (
+                  <ErrorMessage>
                     <p>Hubo un problema al cargar los datos. Intenta nuevamente.</p>
-                    <button onClick={refetch}>Reintentar</button>
-                  </div>
+
+                    <RetryButton onClick={() => dispatch(fetchSongs(lastSearch))}>
+                      Reintentar
+                    </RetryButton>
+                  </ErrorMessage>
                 )}
-                {!loading && !error && searchTerm && formattedTracks.length === 0 && (
-                  <p>No se encontraron resultados.</p>
+              
+                {/* Mostramos un mensaje con estilos cuando no hay resultados. */}
+                {hasSearched && !searchLoading && !searchError && searchResults.length === 0 && (
+                  <EmptyMessage>No se encontraron resultados.</EmptyMessage>
                 )}
-                {!loading && !error && formattedTracks.length > 0 && (
-                <SearchResults 
-                  songs={formattedTracks}
-                  addToLibrary={addToLibrary}
-              />)}
-                <Library songs={library}/>
+                {/* Mostramos las canciones almacenadas en Redux Toolkit. */}
+                {!searchLoading && !searchError && searchResults.length > 0 && (
+                  <SearchResults />
+                )}
+                <Library/>
               </>
             }
             />
-            <Route path="/song/:1d" element={<SongDetail />} />  
+            {/* El parámetro id identifica la canción que queremos consultar. */}
+            <Route path="/song/:id" element={<SongDetail />} />
         </Routes>
       </AppContainer>  
     );
