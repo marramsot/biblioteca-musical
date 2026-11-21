@@ -15,6 +15,9 @@ const Library=(props) => {
     return(
         <LibraryContainer className="library">
             <LibraryTitle>Mi Biblioteca</LibraryTitle>
+            {songs.length === 0 && (
+                <p>No hay canciones en tu biblioteca</p>
+                )}
             {songs.map((song) => (
             <React.Fragment key={song.id}>
                 <Song

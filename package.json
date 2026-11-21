@@ -20,7 +20,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-      "test": "jest",
+    "test": "jest --env=jsdom --setupFiles=./tests/setupTests.js --",
     "test:react": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -43,6 +43,12 @@
     ]
   },
   "devDependencies": {
-    "jest": "^27.5.1"
+    "jest": "^27.5.1",
+    "jest-environment-jsdom": "^27.5.1"
+  },
+  "jest": {
+  "moduleNameMapper": {
+    "^react-router/dom$": "<rootDir>/node_modules/react-router/dist/development/dom-export.js"
+  }
   }
 }

@@ -1,3 +1,4 @@
+import React from "react";
 import Song from "../Song/Song";
 import { ResultsContainer, ResultsTitle} from "./SearchResults.styles";
 // useDispatch envía acciones y useSelector consulta el estado de Redux.
